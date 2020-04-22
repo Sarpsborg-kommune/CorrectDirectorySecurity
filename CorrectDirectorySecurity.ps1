@@ -42,5 +42,9 @@ Function SetAdministratorsOwnership($path = $pwd) {
     }
 }
 
-Write-Host $DirectoryName
+$ACL = Get-Acl $DirectoryName
+$Group = New-Object System.Security.Principal.NTAccount("Builtin","Administrators")
+$ACL.SetOwner($Group)
+Set-Acl -Path $item.FullName -AclObject $ACL
+
 SetAdministratorsOwnership ($DirectoryName)
